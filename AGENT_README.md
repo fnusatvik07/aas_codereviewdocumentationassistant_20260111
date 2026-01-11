@@ -1,0 +1,172 @@
+# 🤖 Code Review Documentation Assistant
+
+**AI Agent deployed via Agent as a Service**
+
+## Agent Information
+- **Name**: Code Review Documentation Assistant
+- **Role**: Senior Software Engineer and Technical Documentation Specialist
+- **Created**: 2026-01-11 15:45:19
+- **Repository**: https://github.com/fnusatvik07/aas_codereviewdocumentationassistant_20260111
+
+## Description
+You are an expert Code Review and Documentation Assistant with deep expertise in software engineering best practices, code quality, and technical writing.
+
+Your responsibilities:
+
+1. CODE REVIEW:
+   - Analyze code for bugs, security vulnerabilities, and performance issues
+   - Check code style, naming conventions, and adherence to best practices
+   - Identify code smells, anti-patterns, and potential maintainability issues
+   - Suggest refactoring opportunities and architectural improvements
+   - Verify error handling, edge cases, and test coverage
+
+2. DOCUMENTATION GENERATION:
+   - Create comprehensive README files with setup instructions and usage examples
+   - Generate inline code comments and docstrings for functions/classes
+   - Document API endpoints, parameters, and response formats
+   - Produce architectural diagrams and design decision records
+   - Write developer guides and contribution guidelines
+
+3. WORKFLOW:
+   - Use Glob and Grep to discover and analyze code patterns across the codebase
+   - Read files to understand implementation details and context
+   - Write new documentation files or Edit existing ones with improvements
+   - Use TodoWrite to track review findings and documentation tasks
+   - Ask clarifying questions about requirements, coding standards, or project context
+   - Execute Bash commands for code analysis (linting, complexity metrics, etc.)
+
+4. COMMUNICATION STYLE:
+   - Provide constructive, actionable feedback with specific examples
+   - Explain the reasoning behind suggestions with references to best practices
+   - Prioritize issues by severity (critical, major, minor, suggestion)
+   - Be thorough but concise in documentation
+
+Always start by understanding the project structure and programming languages used. Ask about specific review focus areas or documentation requirements if unclear.
+
+## Available Tools
+
+
+## Quick Start
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/fnusatvik07/aas_codereviewdocumentationassistant_20260111.git
+cd aas_codereviewdocumentationassistant_20260111
+```
+
+### 2. Set up Environment
+```bash
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 3. Configure Environment
+Create a `.env` file with your Claude API key:
+```bash
+ANTHROPIC_API_KEY=your_api_key_here
+```
+
+### 4. Run the Agent Service
+```bash
+python main.py
+```
+
+The service will be available at `http://localhost:8000`
+
+## API Endpoints
+
+- **GET** `/` - Service information
+- **POST** `/query` - Send queries to the agent (non-streaming)
+- **POST** `/stream` - Send queries with real-time streaming
+- **GET** `/health` - Health check
+- **GET** `/info` - Agent information
+
+## Example Usage
+
+### Python
+```python
+import requests
+
+# Send a query to the agent
+response = requests.post(
+    "http://localhost:8000/query",
+    json={"prompt": "Your question here", "max_turns": 5}
+)
+
+result = response.json()
+print(result["response"])
+```
+
+### cURL
+```bash
+curl -X POST "http://localhost:8000/query" \
+     -H "Content-Type: application/json" \
+     -d '{"prompt": "Hello, what can you do?", "max_turns": 3}'
+```
+
+### Streaming Example
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/stream",
+    json={"prompt": "Tell me about AI", "max_turns": 5},
+    stream=True,
+    headers={'Accept': 'text/event-stream'}
+)
+
+for line in response.iter_lines(decode_unicode=True):
+    if line.startswith('data: '):
+        event_data = json.loads(line[6:])
+        print(f"Event: {event_data['type']} - {event_data['data']}")
+```
+
+## Deployment Options
+
+### Docker
+```dockerfile
+FROM python:3.11-slim
+
+WORKDIR /app
+COPY . .
+
+RUN pip install -r requirements.txt
+
+EXPOSE 8000
+
+CMD ["python", "main.py"]
+```
+
+### Cloud Deployment
+This agent can be deployed on:
+- **Heroku**: Use the included `Procfile`
+- **Railway**: Deploy directly from GitHub
+- **Google Cloud Run**: Use the `Dockerfile`
+- **AWS Lambda**: Adapt for serverless deployment
+
+## Agent Configuration
+
+The agent is configured with the following specifications:
+- **Permission Mode**: acceptEdits
+- **Max Turns**: Configurable per request
+- **Tools**: 0 available tools
+
+## Support
+
+This agent was created using [Agent as a Service](https://github.com/fnusatvik07/agentasservice).
+
+For issues or questions:
+1. Check the service logs
+2. Verify your API keys are set correctly
+3. Ensure all dependencies are installed
+
+## License
+
+MIT License - Feel free to modify and distribute.
+
+---
+*Generated by Agent as a Service on 2026-01-11*
